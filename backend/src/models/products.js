@@ -16,6 +16,14 @@ const Product=sequelize.define('Product',{
     },
     image_url:{
         type:DataTypes.STRING
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        field: 'created_at'  
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updated_at'  
     }
     
 },{timestamps: true,tableName: 'products'})

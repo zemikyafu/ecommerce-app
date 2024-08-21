@@ -19,6 +19,15 @@ const Order=sequelize.define('Order',{
         type:DataTypes.DECIMAL,
         allowNull: false,
     },
+    createdAt: {
+        type: DataTypes.DATE,
+        field: 'created_at'  
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updated_at'  
+    }
+    
     
 },{timestamps: true,tableName: 'orders'})
 
