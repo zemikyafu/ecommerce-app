@@ -60,7 +60,7 @@ const findAllUsers=async(request,response)=>{
         const users=await userService.findAllUsers();
         response.status(200).json(users);
     } catch (error) {
-        console.error('Error while registering user:', error.message, error.stack);
+        console.error('Error while fetching user:', error.message, error.stack);
         response.status(500).send({ 'Error': 'Internal server error' });
     }
 }
