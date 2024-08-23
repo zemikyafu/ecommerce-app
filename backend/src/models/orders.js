@@ -5,6 +5,11 @@ const sequelize= require('../../config/database');
 const Users =require('./users');
 
 const Order=sequelize.define('Order',{
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
     user_id:{
         type:DataTypes.INTEGER,
         allowNull: false,
@@ -29,7 +34,7 @@ const Order=sequelize.define('Order',{
     }
     
     
-},{timestamps: true,tableName: 'orders'})
+},{timestamps: true,tableName: 'orders'});
 
 module.exports=Order
 

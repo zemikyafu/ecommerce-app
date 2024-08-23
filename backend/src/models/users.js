@@ -26,6 +26,7 @@ updatedAt: {
 
   
 },{timestamps: true,tableName: 'users'});
+// User.hasMany(Order,{foreignKey:user_id})
 
 // Sync the model with the database
 // User.sync()

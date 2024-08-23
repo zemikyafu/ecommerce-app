@@ -1,5 +1,6 @@
 const bcrpt = require("bcryptjs");
 const User=require('../models/users');
+const { Order } = require("../models");
 
 const findUserByEmail = async (email) => {
     try {
@@ -42,8 +43,29 @@ const findAllUsers=async ()=>{
     }
     
 } 
-module.exports.findUserByEmail=findUserByEmail
-module.exports.validCredentials=validCredentials
-module.exports.createUser=createUser
-module.exports.hash  =hash
-module.exports.findAllUsers=findAllUsers
+const findUserById=async (id)=>{
+    try {
+        const user=await User.findAll({where:{id:id},include:order});//eagerloading
+        //  const user=await User.findByPk(id);
+        // const order=await user.getOrders();//lazy loading
+       console.log('order',order);
+        return user;
+    } catch (error) {
+        console.log('error',error);
+        return null;
+    }
+}
+// module.exports.findUserByEmail=findUserByEmail
+// module.exports.validCredentials=validCredentials
+// module.exports.createUser=createUser
+// module.exports.hash  =hash
+// module.exports.findAllUsers=findAllUsers
+
+module.exports={
+findUserByEmail,
+validCredentials,
+createUser,
+hash,
+findAllUsers,
+findUserById
+}

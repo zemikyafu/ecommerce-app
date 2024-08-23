@@ -64,7 +64,27 @@ const findAllUsers=async(request,response)=>{
         response.status(500).send({ 'Error': 'Internal server error' });
     }
 }
-  
+const findUserById=async(request,response)=>{
+  try {
+      const id =request.params.id
+      if(!id)
+          return response.status(401).json({'error':'Missing request paramarer '})
+
+      const user=await userService.findUserById(id);
+     
+      if(user){
+          response.status(200).json(user);
+      }
+     else{
+      response.status(404).json({'error':'user not found'});
+     }
+  } catch (error) {
+      console.error('Error while fetching Orders:', error.message, error.stack);
+      response.status(500).send({ 'Error': 'Internal server error' });
+  }
+}
   module.exports.login=login
   module.exports.registerUser=registerUser
   module.exports.findAllUsers=findAllUsers
+  module.exports.findUserById=findUserById
+

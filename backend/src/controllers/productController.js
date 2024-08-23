@@ -1,4 +1,4 @@
-const { Model } = require('sequelize');
+
 const productService=require('../services/productService')
 const createProduct=async (request,response)=>{
     const product=request.body;
