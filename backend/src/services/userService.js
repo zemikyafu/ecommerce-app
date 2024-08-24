@@ -7,7 +7,7 @@ const findUserByEmail = async (email) => {
          const user = await User.findOne({where:{email:email}});
         return user;
     } catch (error) {
-        console.error('Error occurred:', err);
+        console.error('Error occurred:', error);
     }
    
   };
@@ -28,10 +28,10 @@ const createUser=async(user)=>{
         return result
        
     } catch (error) {
-         console.error('Error occurred:', err);
+         console.error('Error occurred:', error);
+         return error;
     }
  
- return result;
 }
 const findAllUsers=async ()=>{
     try {

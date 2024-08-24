@@ -2,8 +2,19 @@
 const sequelize = require("../../config/database");
 
 const User = sequelize.define("User", {
-  name: {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  firstName: {
     type: DataTypes.STRING,
+    field: 'first_name' ,
+    allowNull: false,
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    field:'last_name',
     allowNull: false,
   },
   email: {

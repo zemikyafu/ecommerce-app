@@ -12,7 +12,7 @@ const login = async (request,response) => {
     try {
       //find user by email
       const user = await userService.findUserByEmail(email);
-      if (!user)
+      if (!user|| user===null|| user===undefined)
         return response.status(401).json({ 'error': "User doesn't exist" });
        
       const hash = user.dataValues.password;
@@ -21,8 +21,8 @@ const login = async (request,response) => {
       const validCredentials = userService.validCredentials(password, hash);
       if (!validCredentials)
         return response.status(401).json({ 'error': "Invalid Credentials" });
-
-      const userInfo = { id: user.dataValues.id, email: user.dataValues.email,name:user.dataValues.name};
+       const fullName=user.dataValues.firstName +" "+user.dataValues.lastName
+      const userInfo = { id: user.dataValues.id, email: user.dataValues.email,name:fullName};
       const json_web_token = jwt.sign(userInfo, process.env.JWT_SECRET, {
         expiresIn: "0.5h",
       });
@@ -37,7 +37,7 @@ const login = async (request,response) => {
 
    //user registration
 const registerUser = async (request, response) => {
-    const { name, email, password,  } = request.body;
+    const { firstName,lastName, email, password  } = request.body;
     const hash= await userService.hash(password);
   
     //check if user exis
@@ -48,7 +48,7 @@ const registerUser = async (request, response) => {
   
     try {
    
-     const result=await userService.createUser({name,email,password:hash});
+     const result=await userService.createUser({firstName,lastName,email,password:hash});
      response.status(201).json(result);
     } catch (error) {
       console.error('Error while registering user:', error.message, error.stack);
