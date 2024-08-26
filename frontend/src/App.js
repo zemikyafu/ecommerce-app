@@ -2,18 +2,32 @@
 import './App.css';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import {BrowserRouter,Routes,Route,Navigate} from 'react-router-dom';
 import Header from './components/Header';
+import store from './redux/store';
+import Home from './pages/Home';
+import NotFound from './NotFound';
+import {useSelector} from 'react-redux'
 
 function App() {
+
+  const PrivateRoute = ({ Component }) => { 
+
+   //const loggedIn =store.getState().login.loggedIn;
+   const loggedIn = useSelector((state)=>state.login.loggedIn)
+ 
+    return loggedIn ? <Component /> : <Navigate to="/" />;
+    };
   return (
     <div className="App">
-     <Header></Header>
+    
       <BrowserRouter>
+      <Header></Header>
       <Routes>
         <Route path='/' element={<Login/>}/>
         <Route path='/signup' element={<SignUp/>}/>
-        <Route path='*' errorElement={<errorPage/>}/>
+        <Route path='/home' element={<PrivateRoute Component={Home}/>}/>
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
       </BrowserRouter>
     </div>
