@@ -7,11 +7,13 @@ import { green } from '@mui/material/colors';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import store from '../redux/store';
 const Login=()=>{
     axios.defaults.baseURL="http://localhost:8080/api/user";
     const [formState, setFormState] = useState({ email: "", password: "" });
     const[message,setMessage]=useState({messageType:'',message:''})
     const navigate =  useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
       
@@ -22,10 +24,9 @@ const Login=()=>{
              const {token,user}=response.data;
               localStorage.setItem("token",token);
               localStorage.setItem("user",JSON.stringify(user));
-              console.log('user',localStorage.getItem('user'));
-              console.log('token',localStorage.getItem('token'));
-              setMessage({messageType:'success',message:'Login seccessfull.'})
-           //   navigate("/home");
+              setMessage({messageType:'success',message:'Login seccessfull.'});
+              store.dispatch({type:'user/login',payload:{user:user}})
+            navigate("/home");
             }
           })
           .catch((error) => {
