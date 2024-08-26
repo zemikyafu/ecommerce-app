@@ -26,7 +26,7 @@ const Signup =()=>{
     }
 
     const handleSubmit=(e)=>{
-      console.log('submite start');
+   
       e.preventDefault();
       if (formState.password !== confirmPassword) {
          return  setMessage({ messageType: 'error', message: 'Passwords do not match!' });  
