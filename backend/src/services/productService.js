@@ -39,6 +39,7 @@ const updateProduct=(id,product)=>{
         }
 }
 
+
 module.exports.createProduct=createProduct;
 module.exports.findAllProducts=findAllProducts;
 module.exports.findProductById=findProductById;
