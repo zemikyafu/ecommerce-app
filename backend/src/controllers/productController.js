@@ -1,10 +1,33 @@
 
 const productService=require('../services/productService')
 const createProduct=async (request,response)=>{
-    const product=request.body;
+    //const product=request.body;
+    const { name, description, price } = request.body;
+    const image = request.file.filename;
+ 
+    if (!name || !description || !price || !image) {
+        return res.status(400).json({ error: 'All fields are required.' });
+    }
     try {
+       
+        const product = {
+            name,
+            description,
+            price ,
+            image_url :image
+        };
+
+        
         const result= await productService.createProduct(product);
-        response.status(201).json(result);
+
+        response.status(201).json({
+            id: result.id,
+            name: result.name,
+            description: result.description,
+            price: result.price,
+            image: `/images/${result.image_url}`
+        });
+    
     } catch (error) {
         console.error('Error while creating product:', error.message, error.stack);
         response.status(500).send({ 'Error': 'Internal server error' });
@@ -13,8 +36,15 @@ const createProduct=async (request,response)=>{
 
 const findAllProducts=async(request,response)=>{
     try {
-        const users=await productService.findAllProducts();
-        response.status(200).json(users);
+        const result=await productService.findAllProducts();
+        const products= result.map(product=>({
+        id:product.id,
+        name:product.name,
+        description:product.description,
+        price:product.price,
+        image:`${request.protocol}://${request.get('host')}/images/${product.image_url}`
+        }))
+        response.status(200).json(products);
     } catch (error) {
         console.error('Error while fetching products:', error.message, error.stack);
         response.status(500).send({ 'Error': 'Internal server error' });
@@ -29,7 +59,13 @@ const findProductById=async(request,response)=>{
         const product=await productService.findProductById(id);
        
         if(product){
-            response.status(200).json(product);
+            response.status(200).json({
+                id:product.id,
+                name:product.name,
+                description:product.description,
+                price:product.price,
+                image:`${request.protocol}://${request.get('host')}/images/${product.image_url}`
+            });
         }
        else{
         response.status(404).json({'error':'Product not found'});
