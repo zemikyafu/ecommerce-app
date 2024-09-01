@@ -57,19 +57,21 @@ const findProductById=async(request,response)=>{
         if(!id)
             return response.status(401).json({'error':'Missing request paramarer '})
         const product=await productService.findProductById(id);
-       
-        if(product){
-            response.status(200).json({
-                id:product.id,
-                name:product.name,
-                description:product.description,
-                price:product.price,
-                image:`${request.protocol}://${request.get('host')}/images/${product.image_url}`
+        console.log(product)
+        if (!product|| product===null|| !product.length >0)
+            return response.status(401).json({ 'error': "Product doesn't exist" });
+
+          else{
+                response.status(200).json({
+                id:product[0].id,
+                name:product[0].name,
+                description:product[0].description,
+                price:product[0].price,
+                image:`${request.protocol}://${request.get('host')}/images/${product[0].image_url}`
             });
-        }
-       else{
-        response.status(404).json({'error':'Product not found'});
-       }
+          }
+           
+
     } catch (error) {
         console.error('Error while fetching products:', error.message, error.stack);
         response.status(500).send({ 'Error': 'Internal server error' });

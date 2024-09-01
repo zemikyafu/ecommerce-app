@@ -8,6 +8,8 @@ import store from './redux/store';
 import Home from './pages/Home';
 import NotFound from './NotFound';
 import {useSelector} from 'react-redux'
+import Product from './pages/Product';
+import Order from './pages/Order';
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
         <Route path='/signup' element={<SignUp/>}/>
         <Route path='/home' element={<PrivateRoute Component={Home}/>}/>
         <Route path='*' element={<NotFound/>}/>
+        <Route path='/product' element={<Product/>}/>
+        <Route path='/order' element={<Order/>}/>
       </Routes>
       </BrowserRouter>
     </div>
