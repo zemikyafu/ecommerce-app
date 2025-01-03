@@ -14,9 +14,7 @@ import Order from './pages/Order';
 function App() {
 
   const PrivateRoute = ({ Component }) => { 
-
-   //const loggedIn =store.getState().login.loggedIn;
-   const loggedIn = useSelector((state)=>state.login.loggedIn)
+  const loggedIn = useSelector((state)=>state.login.loggedIn)
  
     return loggedIn ? <Component /> : <Navigate to="/" />;
     };
